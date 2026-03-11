@@ -80,7 +80,7 @@ Walking trajectory visualization:
 
 Center of mass stability using LIPM dynamics.
 
-![LIPM Stability](results/plots/lipm.png)
+![LIPM Stability](results/com_plot_5.png)
 
 ---
 
