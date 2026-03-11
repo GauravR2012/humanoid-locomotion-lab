@@ -1,11 +1,17 @@
-import numpy as np
+import pybullet as p
 
-class LegIK:
+class HumanoidIK:
 
-    def solve(self,foot_pos):
+    def __init__(self, robot):
 
-        hip=np.arctan2(foot_pos[1],foot_pos[0])
-        knee=np.linalg.norm(foot_pos)
-        ankle=-hip
+        self.robot = robot
 
-        return hip,knee,ankle
+    def solve(self, link_id, target):
+
+        joints = p.calculateInverseKinematics(
+            self.robot,
+            link_id,
+            targetPosition=target
+        )
+
+        return joints

@@ -2,15 +2,18 @@ import numpy as np
 
 class LIPMDynamics:
 
-    def __init__(self,com_height=0.8,gravity=9.81):
+    def __init__(self, com_height=0.35, g=9.81):
 
-        self.h=com_height
-        self.g=gravity
-        self.omega=np.sqrt(self.g/self.h)
+        self.h = com_height
+        self.g = g
 
-    def step(self,x,v,dt):
+        self.omega = np.sqrt(g / com_height)
 
-        x_new=x*np.cosh(self.omega*dt)+(v/self.omega)*np.sinh(self.omega*dt)
-        v_new=x*self.omega*np.sinh(self.omega*dt)+v*np.cosh(self.omega*dt)
+    def step(self, x, v, zmp, dt):
 
-        return x_new,v_new
+        x_ddot = self.omega**2 * (x - zmp)
+
+        v = v + x_ddot * dt
+        x = x + v * dt
+
+        return x, v
