@@ -7,23 +7,25 @@ class TorsoStabilizer:
 
         self.robot = robot
 
-        self.kp = 0.4
+        self.kp_roll = 0.6
+        self.kp_pitch = 0.6
 
 
     def stabilize(self):
 
         pos, orn = p.getBasePositionAndOrientation(self.robot)
 
-        euler = p.getEulerFromQuaternion(orn)
+        roll,pitch,yaw = p.getEulerFromQuaternion(orn)
 
-        roll = euler[0]
-        pitch = euler[1]
-
-        correction_roll = -self.kp * roll
-        correction_pitch = -self.kp * pitch
+        correction_roll = -self.kp_roll * roll
+        correction_pitch = -self.kp_pitch * pitch
 
         new_orn = p.getQuaternionFromEuler(
-            [correction_roll, correction_pitch, 0]
+            [correction_roll, correction_pitch, yaw]
         )
 
-        p.resetBasePositionAndOrientation(self.robot, pos, new_orn)
+        p.resetBasePositionAndOrientation(
+            self.robot,
+            pos,
+            new_orn
+        )
